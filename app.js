@@ -8,9 +8,18 @@ const DB_URL = process.env.DB_URL || require('./config');
 mongoose.connect(DB_URL, { useNewUrlParser: true });
 
 
+app.set('view engine', 'ejs');
 app.use(bodyParser.json());
+app.use(express.static('public'));
+
+app.get('/', (req, res, next) => {
+    res.render('index')
+})
+
 
 app.use('/api', apiRouter);
+
+
 
 app.use('/*', (req, res, next) => {
     next({status: 404, msg: 'Path not found'})

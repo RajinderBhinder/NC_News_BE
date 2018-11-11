@@ -1,4 +1,4 @@
-const {Topic, Article} = require('../models')
+const {Topic, Article, Comment} = require('../models')
 
 exports.getTopics = (req, res, next) => {
     Topic.find()
@@ -10,7 +10,7 @@ exports.getTopics = (req, res, next) => {
 
 exports.getArticlesByTopicSlug = (req, res, next) => {
     const {topic_slug} = req.params;
-
+      
     // Topic.count({slug: topic_slug})
     //     .then(count => {
     //         if (count === 0)  {
@@ -19,13 +19,28 @@ exports.getArticlesByTopicSlug = (req, res, next) => {
                 Article.find({'belongs_to': `${topic_slug}`})
                     .populate('created_by')
                     
-                    .then((articles) => {
+                    .then((articleDocs) => {
                         
-                        if (articles.length === 0) {
+                        if (articleDocs.length === 0) {
                             return Promise.reject({status: 404, msg: `No articles found for ${topic_slug}`})
                         }
-                        res.status(200).send({articles});
+
+                        const updatedArticles = articleDocs.map(article => {
+                            article = article.toObject();
+                            return Comment.count({belongs_to: article._id})
+                            .then(commentCount => {
+                 
+                                article.comment_count = commentCount;
+                                return article;
+                            });
+                         })
+                 
+                         return Promise.all(updatedArticles)
                     })
+                    .then(articles => {
+
+                        res.status(200).send({articles});
+                     })
           //  }
 
        // })

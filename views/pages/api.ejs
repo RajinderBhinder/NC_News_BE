@@ -1,0 +1,73 @@
+<%- include('../partials/header.ejs') %>
+<body>
+    <h1>NORTHCODERS NEWS</h1>
+    <h3>GET
+        <span>/api</span>
+      </h3>
+      <p>Serves an HTML page with documentation for all the available endpoints</p>
+    
+      <h3>GET
+        <span>/api/topics/</span>
+      </h3>
+      <p>Get all the topics</p>
+    
+      <h3>GET
+        <span>/api/topics/:topic_slug/articles</span>
+      </h3>
+      <p>Return all the articles for a certain topic</p>
+
+      <h3>POST
+        <span>/api/topics/:topic_slug/articles</span>
+      </h3>
+      <p>Add a new article to a topic. 
+          This route requires a 
+          JSON body with title and body key value pairs</p>
+      <p>e.g: `{ "title": "new article", 
+          "body": "This is my new article content", 
+          "created_by": "user_id goes here"}</p>
+    
+      <h3>GET
+        <span>/api/articles</span>
+      </h3>
+      <p>Returns all the articles</p>
+
+      <h3>GET
+            <span>/api/articles/:article_id</span>
+          </h3>
+          <p>Get an individual article</p>
+    
+      <h3>GET
+        <span>/api/articles/:article_id/comments</span>
+      </h3>
+      <p>Get all the comments for an individual article</p>
+    
+      <h3>POST
+        <span>/api/articles/:article_id/comments</span>
+      </h3>
+      <p>Add a new comment to an article. This route requires a JSON body with with body and created_by key value pairs</p>
+      <p>e.g: {"body": "This is my new comment",
+            "created_by": "user_id goes here"}</p>
+    
+      <h3>PATCH
+        <span>/api/articles/:article_id</span>
+      </h3>
+      <p>Increment or Decrement the votes of an article by one. This route requires a vote query of 'up' or 'down'</p>
+      <p>e.g: /api/articles/:article_id?vote=up</p>
+    
+      <h3>PATCH
+        <span>/api/comments/:comment_id</span>
+      </h3>
+      <p>Increment or Decrement the votes of a comment by one. This route requires a vote query of 'up' or 'down'</p>
+      <p>e.g: /api/comments/:comment_id?vote=down</p>
+    
+      <h3>DELETE
+        <span>/api/comments/:comment_id</span>
+      </h3>
+      <p>Deletes a comment</p>
+    
+      <h3>GET
+        <span>/api/users/:username</span>
+      </h3>
+      <p>Returns a JSON object with the profile data for the specified user.</p>
+</body>
+</html>

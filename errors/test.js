@@ -8,11 +8,19 @@ const seedDB = require('../seed/seed');
 const testData = require('../seed/testData');
 const {Article} = require('../models')
 
-console.log(DB_URL);
 
 describe('/api', () => {
+
     let userDocs, topicDocs, articleDocs, commentDocs;
     const wrongId = mongoose.Types.ObjectId();
+
+
+    const getComments = () => {
+        return commentDocs.filter(comment => 
+            comment.belongs_to === articleDocs[0]._id
+        )
+    }
+
 
     beforeEach(() => {
 
@@ -25,6 +33,18 @@ describe('/api', () => {
     })
 
     after(() =>  {return  mongoose.disconnect()});
+
+    //---------------WRONG PATH-----------------//
+
+    describe('/wrongPath', () => {
+        it('GET returns 404 and error message', () => {
+            return request.get('/wrongPath')
+            .expect(404)
+            .then(res => {
+                expect(res.body.msg).to.equal('Path not found')
+            })
+        });
+    });
 
     //------------------USERS-------------------//
 
@@ -160,6 +180,7 @@ describe('/api', () => {
                 expect(articles[0].title).to.equal(articleDocs[0].title);
                 expect(articles[0].body).to.equal(articleDocs[0].body);
                 expect(articles[0].votes).to.equal(articleDocs[0].votes);
+                expect(articles[0].comment_count).to.equal(getComments().length)
             })
         });
     });
@@ -216,12 +237,6 @@ describe('/api', () => {
         describe('GET', () => {
 
             it('GET returns 200 and all comments for the requested article', () => {
-
-                const getComments = () => {
-                    return commentDocs.filter(comment => 
-                        comment.belongs_to === articleDocs[0]._id
-                    )
-                }
 
                 return request.get(`/api/articles/${articleDocs[0]._id}/comments`)
                 .expect(200)
@@ -291,7 +306,7 @@ describe('/api', () => {
             })
         });
     });
-    describe.only('/comments/:comment_id', () => {
+    describe('/comments/:comment_id', () => {
 
         describe('GET', () => {
             it('GET returns 200 and the requested comment', () => {

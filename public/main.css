@@ -1,0 +1,19 @@
+h1 {
+    margin: 1em;
+    font-size: 3em;
+    text-align: center;
+    text-shadow: 3px 3px rgb(185, 184, 184);
+}
+
+body {
+    margin: 3em;
+}
+
+span {
+    font-style: italic;
+    background-color: rgb(196, 194, 194);
+}
+
+h3 {
+    margin-top: 3em;
+}

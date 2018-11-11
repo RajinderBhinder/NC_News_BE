@@ -6,4 +6,5 @@ const config = {
     production: 'mongodb://rajinder:be2project@ds241530.mlab.com:41530/nc_news'
 }
 
+
 module.exports = config[process.env.NODE_ENV];
