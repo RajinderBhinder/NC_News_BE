@@ -4,10 +4,11 @@ const app = express();
 const bodyParser = require('body-parser');
 const apiRouter = require('./routes/apiRouter');
 const DB_URL = process.env.DB_URL || require('./config');
+const cors = require('cors');
 
 mongoose.connect(DB_URL, { useNewUrlParser: true });
 
-
+app.use(cors());
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(express.static('public'));
