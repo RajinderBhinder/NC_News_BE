@@ -64,21 +64,15 @@ exports.getCommentById = (req, res, next) => {
 exports.updateCommentVoteCount = (req, res, next) => {
     const {comment_id} = req.params;
     const {vote} = req.query;
-    
+    const update = vote === 'up' ? {$inc: {votes: 1}} : {$inc: {votes: -1}};
 
-    if (vote === 'up') {
-        Comment.findByIdAndUpdate(comment_id, {$inc: {votes: 1}}, {new: true})
+    if (vote === 'up' || vote === 'down') {
+        Comment.findByIdAndUpdate(comment_id, update, {new: true})
         .then(comment => {
             res.status(201).send({comment})
         })
         .catch(next)
-    } else if(vote === 'down') {
-        Comment.findByIdAndUpdate(comment_id, {$inc: {votes: -1}}, {new: true})
-        .then(comment => {
-            res.status(201).send({comment})
-        })
-        .catch(next)
-    } else {
+     } else {
         return Promise.reject({status: 400, msg: 'Invalid request for updating vote'})
         .catch(next)
     }

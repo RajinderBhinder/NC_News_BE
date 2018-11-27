@@ -50,21 +50,16 @@ exports.getArticleById = (req, res, next) => {
 exports.updateArticleVoteCount = (req, res, next) => {
     const {article_id} = req.params;
     const {vote} = req.query;
+    const update = vote === 'up' ? {$inc: {votes: 1}} : {$inc: {votes: -1}};
     
 
-    if (vote === 'up') {
-        Article.findByIdAndUpdate(article_id, {$inc: {votes: 1}}, {new: true})
+    if (vote === 'up' || vote === 'down') {
+        Article.findByIdAndUpdate(article_id, update, {new: true})
         .then(article => {
             res.status(201).send({article})
         })
         .catch(next)
-    } else if(vote === 'down') {
-        Article.findByIdAndUpdate(article_id, {$inc: {votes: -1}}, {new: true})
-        .then(article => {
-            res.status(201).send({article})
-        })
-        .catch(next)
-    } else {
+    }  else {
         return Promise.reject({status: 400, msg: 'Invalid request for updating vote'})
         .catch(next)
     }

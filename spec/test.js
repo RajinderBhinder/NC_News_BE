@@ -1,6 +1,6 @@
 process.env.NODE_ENV = 'test';
 const app = require('../app');
-const DB_URL = require('../config');
+const DB_URL = require('../config/config');
 const mongoose = require('mongoose');
 const request = require('supertest')(app); 
 const {expect} = require('chai');

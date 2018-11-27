@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const app = express();
 const bodyParser = require('body-parser');
 const apiRouter = require('./routes/apiRouter');
-const DB_URL = process.env.DB_URL || require('./config');
+const DB_URL = process.env.DB_URL || require('./config/config');
 const cors = require('cors');
 
 mongoose.connect(DB_URL, { useNewUrlParser: true });

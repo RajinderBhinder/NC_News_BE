@@ -77,9 +77,10 @@ git clone https://github.com/RajinderBhinder/BE2-northcoders-news
 mongod
 ```
 
-4. Create a config file:
+4. Create a config file inside a config folder:
 
 ```
+mkdir config
 touch config.js
 ```
 5. Copy the following code into the config file:
@@ -88,8 +89,7 @@ touch config.js
 process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 const config = {
     dev: 'mongodb://localhost:27017/nc_news',
-    test: 'mongodb://localhost:27017/nc_news_test',
-    production: 'mongodb://rajinder:be2project@ds241530.mlab.com:41530/nc_news'
+    test: 'mongodb://localhost:27017/nc_news_test'
 }
 module.exports = config[process.env.NODE_ENV];
 ```
@@ -109,7 +109,9 @@ npm start
 
 This will allow the API to be accessed through port 9090.
 
-A list of all the endpoints can be found at http://localhost:9090/api
+## EndPoints
+
+A list of all the endpoints can be found at https://rajinder-presenting-nc-news.herokuapp.com/api
 
 
 
